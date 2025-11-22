@@ -1,7 +1,10 @@
 import React from 'react'
+import { useContext } from 'react';
 import { Link } from 'react-router-dom'
+import CartContext from '../../Context/CartContext';
 
 const Master = ({children}) => {
+  const {cart}=useContext(CartContext);
   return (
  <>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -29,7 +32,7 @@ const Master = ({children}) => {
 
       <li className="nav-item active">
         <Link className="nav-link" to="/cart">
-          Cart List <span className='badge badge-danger'>10</span>
+          Cart List <span className='badge badge-danger'>{cart.length}</span>
         </Link>
       </li>
   

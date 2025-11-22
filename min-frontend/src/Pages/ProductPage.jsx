@@ -1,15 +1,30 @@
-import React, { useEffect, useState } from 'react'
+import {useContext, useEffect, useState } from 'react'
 import Master from './Layout/Master';
 import axios from 'axios';
 import Loader from './Components/Loader';
+import CartContext from '../Context/CartContext';
+
 
 const ProductPage = () => {
   const [loader, setLoader] =useState(true);
   const [products, setProducts] = useState(true);
+
+  //context
+  const {cart,setCart}=useContext(CartContext);
+  console.log(cart);
+
+
   useEffect(() => {axios.get("http://localhost:3000/api/product").then((d)=>{
     setProducts(d.data);
     setLoader(false);
-  })}, []);
+  });}, []);
+
+  const AddToCart=(p)=>{
+    const product={...p,qty:1};
+    setCart([...cart,product]);
+
+  }
+
   return (
     <Master>
     {loader && <Loader/>}
@@ -26,7 +41,7 @@ const ProductPage = () => {
        <span>{p.name}</span> 
        <div className="d-flex justify-content-between">
         <span className="text-warning">{p.price} mmk</span>
-        <button className="btn btn-sm btn-dark">Cart</button>
+        <button onClick={()=>AddToCart(p)} className="btn btn-sm btn-dark">Cart</button>
        </div>
       </div>
     </div>
